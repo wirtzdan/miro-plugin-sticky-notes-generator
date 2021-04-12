@@ -117,7 +117,7 @@ module.exports = {
   plugins: [
     isDevelopment &&
       new LocalTunnelPlugin({
-        subdomain: "miro-plugin-boilerplate",
+        subdomain: "miro-plugin-sticky-notes-generator",
       }),
     ...Object.keys(entries).map((entry) => {
       const sharedHtmlSettings = {

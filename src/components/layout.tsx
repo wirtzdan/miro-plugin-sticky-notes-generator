@@ -10,7 +10,7 @@ const Layout = ({ children, animate = false }) => {
       bottom="0"
       left="0"
       p="20px 24px"
-      background="white"
+      background="#faf7f5"
     >
       {animate ? (
         <ScaleFade in>
@@ -19,7 +19,7 @@ const Layout = ({ children, animate = false }) => {
           </VStack>
         </ScaleFade>
       ) : (
-        <VStack spacing={4} alignItems="flex-start">
+        <VStack spacing={4} alignItems="flex-start" h="100%">
           {children}
         </VStack>
       )}
