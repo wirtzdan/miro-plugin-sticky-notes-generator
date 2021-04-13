@@ -70,7 +70,7 @@ const Generator = () => {
     return settings.randomiser.isActive
       ? settings.randomiser.allowDuplicates
         ? randomSelectionFromArray(list, number)
-        : sample(list, number)
+        : shuffle(list).slice(0, number)
       : list.slice(0, number);
   };
 
@@ -151,7 +151,7 @@ const Generator = () => {
       viewport
     );
 
-    const list = getList(
+    const list = await getList(
       settings.randomiser.isActive
         ? settings.randomiser.stickyNotes
         : settings.editor.numberOfLines
