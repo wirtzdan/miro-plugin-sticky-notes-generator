@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import Layout from "../components/layout";
 import Header from "../components/header";
 
-export const Page2 = () => {
+export const Help = () => {
   return (
     <Layout>
       <Link to="/">
-        <Header title="Page 2" showArrow />
-        <Box>This is Page 2</Box>
+        <Header title="Help" showArrow showDivider />
+        <Box>This is the help page</Box>
       </Link>
     </Layout>
   );

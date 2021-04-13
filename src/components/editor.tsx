@@ -15,6 +15,7 @@ import {
   MenuIcon,
   MenuCommand,
   MenuDivider,
+  Icon,
 } from "@chakra-ui/react";
 import SimpleEditor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
@@ -22,6 +23,7 @@ import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import { useAtom } from "jotai";
 import settingsAtom from "../state/state";
+import { ChevronDownIcon } from "@heroicons/react/solid";
 
 const Editor = () => {
   const [settings, setSettings] = useAtom(settingsAtom);
@@ -44,19 +46,10 @@ const Editor = () => {
       .map((line, i) => `<span class='editorLineNumber'>${i + 1}</span>${line}`)
       .join("\n");
 
-  const handleTemplateClick = (key) => {
-    console.log(
-      "🚀 ~ file: editor.tsx ~ line 48 ~ handleTemplateClick ~ key",
-      key
-    );
-    console.log(
-      "🚀 ~ file: editor.tsx ~ line 57 ~ handleTemplateClick ~ settings[key]",
-      settings.templates[key]
-    );
-
+  const handleTemplateClick = (category, template) => {
     setSettings({
       ...settings,
-      ...settings.templates[key],
+      ...settings.templates[category][template],
     });
   };
 
@@ -80,8 +73,13 @@ const Editor = () => {
         p={2}
         roundedTop="sm"
       >
-        <Text color="white" fontSize="16px">
-          My List
+        <Text
+          color="white"
+          fontSize="16px"
+          fontWeight="700"
+          textTransform="uppercase"
+        >
+          List
         </Text>
         <Menu>
           <MenuButton
@@ -89,17 +87,26 @@ const Editor = () => {
             size="xs"
             backgroundColor="neutral.100"
             color="neutral.900"
+            rightIcon={<Icon as={ChevronDownIcon} />}
           >
             Templates
           </MenuButton>
           <MenuList>
-            <MenuGroup title="Dices">
-              {Object.keys(settings.templates).map((key) => (
-                <MenuItem key={key} onClick={() => handleTemplateClick(key)}>
-                  {key}
-                </MenuItem>
-              ))}
-            </MenuGroup>
+            {Object.keys(settings.templates).map((category) => (
+              <>
+                <MenuGroup key={category} title={category}>
+                  {Object.keys(settings.templates[category]).map((template) => (
+                    <MenuItem
+                      key={template}
+                      onClick={() => handleTemplateClick(category, template)}
+                    >
+                      {template}
+                    </MenuItem>
+                  ))}
+                </MenuGroup>
+                <MenuDivider />
+              </>
+            ))}
           </MenuList>
         </Menu>
       </HStack>

@@ -1,5 +1,22 @@
 import { extendTheme } from "@chakra-ui/react";
 const theme = extendTheme({
+  components: {
+    Menu: {
+      parts: ["item"],
+      sizes: {
+        sm: {
+          item: {
+            fontSize: "0.875rem",
+            px: 4,
+            py: 1.5,
+          },
+        },
+      },
+      defaultProps: {
+        size: "sm",
+      },
+    },
+  },
   colors: {
     neutral: {
       100: "#F5F5F7",

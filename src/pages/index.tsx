@@ -9,12 +9,12 @@ import Randomiser from "../components/randomiser";
 import Footer from "../components/footer";
 import Generator from "../components/generator";
 
-export const Page1 = () => {
+export const Index = () => {
   return (
     <Layout>
-      <Header title="Sticky Generator" />
+      <Header title="Sticky Generator" showHelp />
       <VStack alignItems="flex-start" height="100%">
-        <VStack alignItems="flex-start" flexGrow={1}>
+        <VStack alignItems="flex-start" flexGrow={1} spacing={6} mt={4}>
           <Text>
             Enter your items in the field below, each on a separate line.
           </Text>

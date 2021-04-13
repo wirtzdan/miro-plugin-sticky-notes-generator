@@ -33,9 +33,7 @@ const Options = () => {
           <HStack>
             <HStack>
               <Text>Sticky Notes to create</Text>
-              <Tooltip label="Search places">
-                <InformationCircleIcon />
-              </Tooltip>
+              <Tooltip label="Search places">Text</Tooltip>
             </HStack>
           </HStack>
         </AccordionPanel>

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Button } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import settingsAtom from "../state/state";
+import sample from "lodash/sample";
 
 const Generator = () => {
   const [settings, setSettings] = useAtom(settingsAtom);
@@ -49,11 +50,27 @@ const Generator = () => {
     settings.templates,
   ]);
 
+  const randomSelectionFromArray = (array, number) => {
+    let newArr = [];
+    if (number >= array.length) {
+      return array;
+    }
+    for (let i = 0; i < number; i++) {
+      let newElem = array[Math.floor(Math.random() * array.length)];
+      newArr.push(newElem);
+    }
+    return newArr;
+  };
+
   const getList = (number) => {
     const list = settings.editor.list.replace(/\r\n/g, "\n").split("\n");
 
+    // ! The first shuffle needs to fixed so it works with duplicates
+    // ! Also it's good to change this to lodash here and use sample
     return settings.randomiser.isActive
-      ? shuffle(list).slice(0, number)
+      ? settings.randomiser.allowDuplicates
+        ? randomSelectionFromArray(list, number)
+        : sample(list, number)
       : list.slice(0, number);
   };
 
@@ -127,6 +144,13 @@ const Generator = () => {
 
     let widgets = [];
 
+    const viewport = await miro.board.viewport.getViewport();
+
+    console.log(
+      "🚀 ~ file: generator.tsx ~ line 148 ~ createStickyNotes ~ viewport",
+      viewport
+    );
+
     const list = getList(
       settings.randomiser.isActive
         ? settings.randomiser.stickyNotes
@@ -137,8 +161,8 @@ const Generator = () => {
       widgets.push({
         type: "sticker",
         text: list[index],
-        x: index * 220,
-        // y: Math.trunc((index + 1) / 4) * 220,
+        x: viewport.x + viewport.width / 2 + index * 220,
+        y: viewport.y + viewport.height / 2,
       });
     });
 
@@ -172,7 +196,15 @@ const Generator = () => {
   };
 
   const getText = () =>
-    settings.board.hasSelectedSticker
+    settings.randomiser.isActive
+      ? settings.board.hasSelectedSticker
+        ? settings.board.numberOfSelectedSticker > 1
+          ? `Update ${settings.board.numberOfSelectedSticker} Sticky Notes`
+          : `Update ${settings.board.numberOfSelectedSticker} Sticky`
+        : settings.randomiser.stickyNotes > 1
+        ? `Create ${settings.randomiser.stickyNotes} Sticky Notes`
+        : `Create ${settings.randomiser.stickyNotes} Sticky`
+      : settings.board.hasSelectedSticker
       ? settings.board.numberOfSelectedSticker > 1
         ? `Update ${settings.board.numberOfSelectedSticker} Sticky Notes`
         : `Update ${settings.board.numberOfSelectedSticker} Sticky`

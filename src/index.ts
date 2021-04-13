@@ -4,7 +4,7 @@ miro.onReady((): void => {
   miro.initialize({
     extensionPoints: {
       toolbar: {
-        title: "Miro Plugin Boilerplate",
+        title: "Sticky Generator",
         toolbarSvgIcon: icon,
         librarySvgIcon: icon,
         async onClick(): Promise<void> {

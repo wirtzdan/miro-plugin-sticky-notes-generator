@@ -27,12 +27,22 @@ import settingsAtom from "../state/state";
 const Randomiser = () => {
   const [settings, setSettings] = useAtom(settingsAtom);
 
-  const handleSwitch = () => {
+  const handleRandomiserToggle = () => {
     setSettings({
       ...settings,
       randomiser: {
         ...settings.randomiser,
         isActive: !settings.randomiser.isActive,
+      },
+    });
+  };
+
+  const handleDuplicateToggle = () => {
+    setSettings({
+      ...settings,
+      randomiser: {
+        ...settings.randomiser,
+        allowDuplicates: !settings.randomiser.allowDuplicates,
       },
     });
   };
@@ -66,7 +76,7 @@ const Randomiser = () => {
         </Text>
         <Switch
           isChecked={settings.randomiser.isActive}
-          onChange={handleSwitch}
+          onChange={handleRandomiserToggle}
         ></Switch>
       </HStack>
       <VStack
@@ -75,21 +85,25 @@ const Randomiser = () => {
         animateOpacity
         w="100%"
         alignItems="flex-start"
+        overflow="visible"
       >
         <Divider></Divider>
         <HStack justifyContent="space-between" alignItems="center" w="100%">
-          <HStack flexGrow={1}>
-            <Text fontSize="14px">Sticky Notes</Text>
+          <HStack flexGrow={1} spacing={2}>
+            <Text fontSize="14px">Random Sticky Notes</Text>
             <Tooltip
-              label="The number of sticky notes you want to generate and randomise"
-              fontSize="md"
+              label="The number of random sticky notes you want to generate on the canvas. Example: Pick two and you will get two sticky notes from the list"
+              fontSize="sm"
             >
-              <Icon as={InformationCircleIcon} color="gray.300" />
+              <span>
+                <Icon as={InformationCircleIcon} color="gray.400" />
+              </span>
             </Tooltip>
           </HStack>
           <NumberInput
             size="sm"
             maxW={16}
+            value={settings.randomiser.stickyNotes}
             isDisabled={settings.board.hasSelectedSticker}
             max={99}
             onChange={handleNumberChange}
@@ -101,6 +115,24 @@ const Randomiser = () => {
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
+        </HStack>
+        <HStack>
+          <HStack flexGrow={1} spacing={2}>
+            <Text fontSize="14px">Allow Duplicates</Text>
+            <Tooltip
+              label="The number of random sticky notes you want to generate on the canvas. Example: Pick two and you will get two sticky notes from the list"
+              fontSize="sm"
+            >
+              <span>
+                <Icon as={InformationCircleIcon} color="gray.400" />
+              </span>
+            </Tooltip>
+          </HStack>
+          <Switch
+            size="sm"
+            isChecked={settings.randomiser.allowDuplicates}
+            onChange={handleDuplicateToggle}
+          />
         </HStack>
       </VStack>
     </VStack>
